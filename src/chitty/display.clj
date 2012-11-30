@@ -15,18 +15,22 @@
 	[row]
 	(doseq [slot row]
 		(print-item (to-icon slot)))
-	(print "\n"))
+	(println ""))
 
-(defn print-col-title
+(defn print-board-header
 	[board-width]
 	(dotimes [col board-width]
 		(print-item col))
 	(println ""))
 
+(defn print-board-body
+	[board]
+	(doseq [row board]
+		(print-row row)))
+
 (defn print-board
 	[board]
 	(println "")
-	(print-col-title (count (first board)))
-	(doseq [row board]
-		(print-row row))
+	(print-board-header (count (first board)))
+	(print-board-body board)
 	(println ""))
