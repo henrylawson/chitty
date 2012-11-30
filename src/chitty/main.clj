@@ -1,5 +1,9 @@
 (ns chitty.main
-	(:gen-class))
+	(:gen-class)
+	(:use [chitty.display :only (print-board)])
+	(:use [chitty.core :only (board)]))
 
 (defn -main [& args]
-	(println "Chitty!!!"))
+	(let 
+		[x (board)]
+		(print-board x)))

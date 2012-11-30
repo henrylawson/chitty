@@ -2,6 +2,12 @@
   (:use clojure.test
         chitty.core))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest board-rows
+	(testing "board should have correct row count"
+		(is (= (count (board)) 6))))
+
+(deftest board-columns
+	(testing "board should have correct column count"
+		(doseq
+			[row (board)]
+			(is (= (count row) 8)))))
