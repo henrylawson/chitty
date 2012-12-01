@@ -14,23 +14,21 @@
 (defn prompt-for-move [player]
 	(parse-int (get-input (message-player-move player))))
 
-(defn play-game [board]
-	(loop [	player 0
-			next-player 1
-			move (prompt-for-move player)
-			board board]
-		(let [new-board (place board player move)]
-			(print-board new-board)
-			(cond 
-				(is-game-won? new-board)
-		    	(println (messages-player-won player))
-		    	(is-game-over? new-board)
-		   		(println (messages-game-over))
-		   		:else
-		   		(recur next-player player (prompt-for-move next-player) new-board)))))
+(defn play-game [player next-player move board]
+	(let [new-board (place board player move)]
+		(print-board new-board)
+		(cond 
+			(is-game-won? new-board)
+	    	(println (messages-player-won player))
+	    	(is-game-over? new-board)
+	   		(println (messages-game-over))
+	   		:else
+	   		(recur next-player player (prompt-for-move next-player) new-board))))
 
 (defn -main [& args]
-	(let [board (board)]
+	(let [	board (board)
+			player 0
+			next-player 1]
 		(print-board board)
-		(play-game board)))
+		(play-game player next-player (prompt-for-move player) board)))
 	
