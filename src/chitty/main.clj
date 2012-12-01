@@ -16,10 +16,10 @@
 		(print-board @game)
 		(loop [input (get-input (message-player-move @player))]
 		    (cond 
-		    	(is-game-won? board)
+		    	(is-game-won? @game)
 		    	(let [previous-player (swap-player @player)]
 		    		(println (messages-player-won previous-player)))
-		    	(is-game-over? board)
+		    	(is-game-over? @game)
 	    		(println (messages-game-over))
 	    		(not= input "exit")
 		    	(do

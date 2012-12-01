@@ -28,5 +28,8 @@
 (defn is-game-won? [board]
 	false)
 
+(defn is-column-full? [column]
+	(= (nil-count column) 0))
+
 (defn is-game-over? [board]
-	false)
+	(every? is-column-full? board))
