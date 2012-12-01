@@ -25,8 +25,24 @@
 (defn place	[board player column-number]
 	(assoc board column-number (drop-into (board column-number) player)))
 
+(defn vertical-win? [column]
+	(loop [tokens column last-token nil token-count 1]
+		(let [token (first tokens) remaining (rest tokens)]
+			(cond 
+				(= token-count 4)
+				true
+				(empty? tokens)
+				false
+				(and (= token last-token) (not (nil? token)))
+ 				(recur remaining token (+ token-count 1))
+				:else
+				(recur remaining token 1)))))
+
+(defn any-vertical-win? [board]
+	(true? (some vertical-win? board)))
+
 (defn is-game-won? [board]
-	false)
+	(any-vertical-win? board))
 
 (defn is-column-full? [column]
 	(= (nil-count column) 0))

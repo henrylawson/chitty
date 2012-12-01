@@ -7,8 +7,8 @@
 (defn to-icon [slot]
 	(cond 
 		(nil? slot) "."
-		(= slot 0) "X"
-		(= slot 1) "O"))
+		(= slot 0) "O"
+		(= slot 1) "X"))
 
 (defn print-board-header [board-width]
 	(dotimes [col board-width]

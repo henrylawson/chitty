@@ -12,21 +12,18 @@
 	(read-line))
 
 (defn -main [& args]
-	(with-local-vars [game (board) player 1]
+	(with-local-vars [game (board)]
 		(print-board @game)
-		(loop [input (get-input (message-player-move @player))]
+		(loop [input (get-input (message-player-move 0)) player 0]
+			(try
+				(var-set game (place @game player (parse-int input)))
+				(catch Exception e (println (message-invalid-command)))
+				(finally (print-board @game)))
 		    (cond 
 		    	(is-game-won? @game)
-		    	(let [previous-player (swap-player @player)]
-		    		(println (messages-player-won previous-player)))
+		    	(println (messages-player-won player))
 		    	(is-game-over? @game)
 	    		(println (messages-game-over))
 	    		(not= input "exit")
-		    	(do
-		    		(try
-		    			(do
-		    				(var-set game (place @game @player (parse-int input)))
-		    				(var-set player (swap-player @player)))
-		    			(catch Exception e (println (message-invalid-command)))
-		    			(finally (print-board @game)))
-		    		(recur (get-input (message-player-move @player))))))))
+	    		(let [next-player (swap-player player)]
+		    		(recur (get-input (message-player-move next-player)) next-player))))))
