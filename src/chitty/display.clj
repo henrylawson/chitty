@@ -1,4 +1,5 @@
-(ns chitty.display)
+(ns chitty.display
+	(:use [chitty.core :only (vector-with)]))
 
 (defn print-item
 	[item]
@@ -11,12 +12,6 @@
 		(= slot 0) "X"
 		(= slot 1) "O"))
 
-(defn print-row
-	[row]
-	(doseq [slot row]
-		(print-item (to-icon slot)))
-	(println ""))
-
 (defn print-board-header
 	[board-width]
 	(dotimes [col board-width]
@@ -25,12 +20,14 @@
 
 (defn print-board-body
 	[board]
-	(doseq [row board]
-		(print-row row)))
+	(dotimes [row-count (count (first board))]
+		(doseq [column board]
+			(print-item (to-icon (column row-count))))
+		(println "")))
 
 (defn print-board
 	[board]
 	(println "")
-	(print-board-header (count (first board)))
+	(print-board-header (count board))
 	(print-board-body board)
 	(println ""))

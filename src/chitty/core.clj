@@ -1,14 +1,33 @@
 (ns chitty.core)
 
-(defn vector-of
+(defn vector-with
 	[size contents]
 	(vec (repeat size contents)))
 
 (defn build-board
 	[row-count column-count]
-	(vector-of row-count 
-		(vector-of column-count nil))) 
+	(vector-with column-count 
+		(vector-with row-count nil))) 
 
 (defn board
 	[]
 	(build-board 6 8))
+
+(defn nil-count
+	[column]
+	(count (for [slot column 
+				 :when (nil? slot)] 
+			slot)))
+
+(defn next-free-slot
+	[column]
+	(- (nil-count column) 1))
+
+(defn drop-into
+	[column player]
+	(assoc column (next-free-slot column) player))
+
+(defn place
+	[board player column-number]
+	(assoc board column-number (drop-into (board column-number) player)))
+
