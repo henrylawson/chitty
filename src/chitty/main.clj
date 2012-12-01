@@ -29,4 +29,4 @@
 		    				(var-set player (swap-player @player)))
 		    			(catch Exception e (println (message-invalid-command)))
 		    			(finally (print-board @game)))
-		    		(recur (get-input (message-player-move @player))))))))fd
+		    		(recur (get-input (message-player-move @player))))))))
