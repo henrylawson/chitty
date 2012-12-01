@@ -5,25 +5,29 @@
 	(:use [chitty.messages]))
 
 (defn parse-int [number-string]
-  (Integer. (re-find #"[0-9]*" number-string)))
+	(try
+		(Integer. (re-find #"[0-9]*" number-string))
+		(catch Exception e nil)))
 
 (defn get-input [prompt]
 	(println prompt)
 	(read-line))
 
+(defn prompt-for-move [player]
+	(parse-int
+		(get-input (message-player-move player))))
+
 (defn -main [& args]
-	(with-local-vars [game (board)]
-		(print-board @game)
-		(loop [input (get-input (message-player-move 0)) player 0]
-			(try
-				(var-set game (place @game player (parse-int input)))
-				(catch Exception e (println (message-invalid-command)))
-				(finally (print-board @game)))
-		    (cond 
-		    	(is-game-won? @game)
+	(loop [	board (board)
+			move (prompt-for-move 0)
+			player 0]
+		(let [	next-player (swap-player player)
+				new-board (place board player move)]
+			(print-board new-board)
+			(cond 
+				(is-game-won? new-board)
 		    	(println (messages-player-won player))
-		    	(is-game-over? @game)
+		    	(is-game-over? new-board)
 	    		(println (messages-game-over))
-	    		(not= input "exit")
-	    		(let [next-player (swap-player player)]
-		    		(recur (get-input (message-player-move next-player)) next-player))))))
+	    		:else
+	    		(recur new-board (prompt-for-move next-player) next-player)))))
