@@ -11,9 +11,7 @@
 	(build-board 6 8))
 
 (defn nil-count	[column]
-	(count (for [slot column 
-				 :when (nil? slot)] 
-			slot)))
+	(count (for [slot column :when (nil? slot)] slot)))
 
 (defn next-free-slot [column]
 	(- (nil-count column) 1))
@@ -22,9 +20,7 @@
 	(assoc column (next-free-slot column) player))
 
 (defn swap-player [player]
-	(if (= player 0)
-		1
-		0))
+	(if (= player 0) 1 0))
 
 (defn place	[board player column-number]
 	(assoc board column-number (drop-into (board column-number) player)))
