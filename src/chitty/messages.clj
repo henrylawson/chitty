@@ -11,6 +11,3 @@
 
 (defn messages-game-over []
 	">> Game over!")
-
-(defn messages-goodbye []
-	">> Bye bye!")
