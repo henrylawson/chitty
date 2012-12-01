@@ -26,9 +26,7 @@
 	   		(recur next-player player (prompt-for-move next-player) new-board))))
 
 (defn -main [& args]
-	(let [	board (board)
-			player 0
-			next-player 1]
+	(let [board (board)	player 0 next-player 1]
 		(print-board board)
 		(play-game player next-player (prompt-for-move player) board)))
 	
