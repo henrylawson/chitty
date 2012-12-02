@@ -28,6 +28,9 @@
 (defn inc-to [upper-limit value]
 	(if (= upper-limit value) 0 (inc value)))
 
+(defn inc-when [value other-value number]
+	(if (= value other-value) (inc number) number))
+
 (defn token-equal? [token other-token]
 	(and 
 		(= token other-token) 
@@ -52,28 +55,66 @@
 
 (defn any-horizontal-win? [board]
 	(let [	board2d (to-array-2d board)
-			column-count (dec (count board))
- 			row-count (dec (count (first board)))]
+			column-max (dec (count board))
+ 			row-max (dec (count (first board)))]
 		(loop [column 0 row 0 last-token nil token-count 1]
 			(let [	token (aget board2d column row)
-					next-column (inc-to column-count column)
-					next-row (if (= column-count column) (inc row) row)]
+					next-column (inc-to column-max column)
+					next-row (inc-when column-max column row)]
 				(cond
 					(= token-count 4)
 					true
-					(> next-row row-count)
+					(> next-row row-max)
 					false
-					(= column column-count)
+					(= column column-max)
 					(recur next-column next-row nil 1)
 					(token-equal? token last-token)
  					(recur next-column next-row token (inc token-count))
 					:else
 					(recur next-column next-row token 1))))))
 
+(defn has-diagnol? [board column row]
+	(let [	token (aget board column row)
+			column-max (dec (count board))
+ 			row-max (dec (count (first board)))]
+ 		(cond
+ 			(or
+ 				(nil? token)
+ 				(> (+ column 3) column-max))
+ 			false
+ 			(and 
+ 				(<= (+ row 3) row-max)
+ 				(= token (aget board (+ column 1) (+ row 1)))
+ 				(= token (aget board (+ column 2) (+ row 2)))
+ 				(= token (aget board (+ column 3) (+ row 3))))
+ 			true
+ 			(and 
+ 				(>= (- row 3) 0)
+ 				(= token (aget board (+ column 1) (- row 1)))
+ 				(= token (aget board (+ column 2) (- row 2)))
+ 				(= token (aget board (+ column 3) (- row 3))))
+ 			true)))
+
+(defn any-diagnol-win? [board]
+	(let [	board2d (to-array-2d board)
+			column-max (dec (count board))
+ 			row-max (dec (count (first board)))]
+		(loop [column 0 row 0]
+			(let [	next-column (inc-to column-max column)
+					next-row (inc-when column-max column row)]
+				(cond 
+					(has-diagnol? board2d column row)
+					true
+					(> next-row row-max)
+					false
+					:else
+					(recur next-column next-row))))))
+
 (defn is-game-won? [board]
 	(or 
 		(any-vertical-win? board) 
-		(any-horizontal-win? board)))
+		(any-horizontal-win? board)
+		(any-diagnol-win? board)))
 
 (defn is-column-full? [column]
 	(= (nil-count column) 0))

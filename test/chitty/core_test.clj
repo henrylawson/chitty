@@ -30,7 +30,7 @@
 					[nil nil nil nil nil nil]]]
 			(is (false? (is-game-won? game))))))
 
-(deftest is-game-won?-vertical-items
+(deftest is-game-won?-vertical-items-1
 	(testing "game is won when a single player has 4 vertical items"
 		(let [game [[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
@@ -42,7 +42,19 @@
 					[nil nil nil nil nil nil]]]
 			(is (true? (is-game-won? game))))))
 
-(deftest is-game-won?-horizontal-items
+(deftest is-game-won?-vertical-items-2
+	(testing "game is won when a single player has 4 vertical items"
+		(let [game [[nil nil 0   0   0   0  ]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]]]
+			(is (true? (is-game-won? game))))))
+
+(deftest is-game-won?-horizontal-items-1
 	(testing "game is won when a single player has 4 horizontal items"
 		(let [game [[nil nil nil nil nil nil]
 					[nil 0   nil nil nil nil]
@@ -62,6 +74,30 @@
 					[nil nil nil nil nil 0  ]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]]]
+			(is (true? (is-game-won? game))))))
+
+(deftest is-game-won?-diagnol-items-1
+	(testing "game is won when a single player has 4 diagnol items"
+		(let [game [[nil nil nil nil nil nil]
+					[nil nil nil nil 0   nil]
+					[nil nil nil 0   nil nil]
+					[nil nil 0   nil nil nil]
+					[nil 0   nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]]]
+			(is (true? (is-game-won? game))))))
+
+(deftest is-game-won?-diagnol-items-2
+	(testing "game is won when a single player has 4 diagnol items"
+		(let [game [[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil 0   nil nil nil]
+					[nil nil nil 0   nil nil]
+					[nil nil nil nil 0   nil]
+					[nil nil nil nil nil 0  ]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
 			(is (true? (is-game-won? game))))))
