@@ -1,37 +1,37 @@
 (ns chitty.core)
 
-(defn vector-with [size contents]
+(defn- vector-with [size contents]
 	(vec (repeat size contents)))
 
-(defn build-board [row-count column-count]
+(defn- build-board [row-count column-count]
 	(vector-with column-count 
 		(vector-with row-count nil))) 
 
 (defn board	[]
 	(build-board 6 8))
 
-(defn nil-count	[column]
+(defn- nil-count	[column]
 	(count (for [slot column :when (nil? slot)] slot)))
 
-(defn next-free-slot [column]
+(defn- next-free-slot [column]
 	(dec (nil-count column)))
 
-(defn drop-into	[column player]
+(defn- drop-into	[column player]
 	(assoc column (next-free-slot column) player))
-
-(defn swap-player [player]
-	(if (= player 0) 1 0))
 
 (defn place	[board player column-number]
 	(assoc board column-number (drop-into (board column-number) player)))
 
-(defn inc-to [upper-limit value]
+(defn swap-player [player]
+	(if (= player 0) 1 0))
+
+(defn- inc-to [upper-limit value]
 	(if (= upper-limit value) 0 (inc value)))
 
-(defn inc-when [value other-value number]
+(defn- inc-when [value other-value number]
 	(if (= value other-value) (inc number) number))
 
-(defn has-diagnol? [board column row]
+(defn- has-diagnol? [board column row]
 	(let [	token (aget board column row)
 			column-max (dec (count board))
  			row-max (dec (count (first board)))]
@@ -51,7 +51,7 @@
  				(= token (aget board (+ column 3) (- row 3))))
  			true)))
 
-(defn has-vertical? [board column row]
+(defn- has-vertical? [board column row]
 	(let [	token (aget board column row)
  			row-max (dec (count (first board)))]
  		(and 
@@ -60,7 +60,7 @@
 			(= token (aget board column (+ row 2)))
 			(= token (aget board column (+ row 3))))))
 
-(defn has-horizontal? [board column row]
+(defn- has-horizontal? [board column row]
 	(let [	token (aget board column row)
 			column-max (dec (count board))]
  		(and 
@@ -69,7 +69,7 @@
 			(= token (aget board (+ column 2) row))
 			(= token (aget board (+ column 3) row)))))
 
-(defn has-a-win? [board column row]
+(defn- has-a-win? [board column row]
 	(and
 		(not (nil? (aget board column row)))
 		(or 
@@ -92,7 +92,7 @@
 					:else
 					(recur next-column next-row))))))
 
-(defn is-column-full? [column]
+(defn- is-column-full? [column]
 	(= (nil-count column) 0))
 
 (defn is-game-over? [board]

@@ -4,17 +4,17 @@
 	(:use [chitty.core :only (board place swap-player is-game-won? is-game-over?)])
 	(:use [chitty.messages]))
 
-(defn parse-int [number-string]
+(defn- parse-int [number-string]
 	(Integer. number-string))
 
-(defn get-input [prompt]
+(defn- get-input [prompt]
 	(println prompt)
 	(read-line))
 
-(defn prompt-for-move [player]
+(defn- prompt-for-move [player]
 	(parse-int (get-input (message-player-move player))))
 
-(defn play-game [player next-player move board]
+(defn- play-game [player next-player move board]
 	(let [new-board (place board player move)]
 		(print-board new-board)
 		(cond 
