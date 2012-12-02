@@ -101,3 +101,33 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
 			(is (true? (is-game-won? game))))))
+
+(deftest is-game-over?-when-full
+	(testing "game is over when all places are filled"
+		(let [game [[1   1   1   1   1   1  ]
+					[1   1   1   0   1   1  ]
+					[1   1   0   1   1   1  ]
+					[1   1   1   0   1   1  ]
+					[1   1   1   1   0   1  ]
+					[1   1   1   1   1   0  ]
+					[1   1   1   1   1   1  ]
+					[1   1   1   1   1   1  ]]]
+			(is (true? (is-game-over? game))))))
+
+(deftest is-game-over?-when-not-full
+	(testing "game is not over when not all places are filled"
+		(let [game [[nil nil 1   1   1   1  ]
+					[nil nil 1   0   1   1  ]
+					[nil nil 0   1   1   1  ]
+					[nil nil 1   0   1   1  ]
+					[nil nil 1   1   0   1  ]
+					[nil nil 1   1   1   0  ]
+					[nil nil 1   1   1   1  ]
+					[nil nil 1   1   1   1  ]]]
+			(is (false? (is-game-over? game))))))
+
+(deftest swap-player-tests
+	(testing "should swap to player 1 when intial is 0"
+		(is (= (swap-player 0) 1)))
+	(testing "should swap to player 0 when intial is 1"
+		(is (= (swap-player 1) 0))))
