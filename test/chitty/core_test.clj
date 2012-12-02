@@ -42,7 +42,6 @@
 					[nil nil nil nil nil nil]]]
 			(is (true? (is-game-won? game))))))
 
-
 (deftest is-game-won?-horizontal-items
 	(testing "game is won when a single player has 4 horizontal items"
 		(let [game [[nil nil nil nil nil nil]
@@ -50,6 +49,18 @@
 					[nil 0   nil nil nil nil]
 					[nil 0   nil nil nil nil]
 					[nil 0   nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]
+					[nil nil nil nil nil nil]]]
+			(is (true? (is-game-won? game))))))
+
+(deftest is-game-won?-horizontal-items-2
+	(testing "game is won when a single player has 4 horizontal items"
+		(let [game [[nil nil nil nil nil 0  ]
+					[nil nil nil nil nil 0  ]
+					[nil nil nil nil nil 0  ]
+					[nil nil nil nil nil 0  ]
+					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]

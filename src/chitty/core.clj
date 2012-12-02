@@ -61,7 +61,7 @@
 				(cond
 					(= token-count 4)
 					true
-					(= row row-count)
+					(> next-row row-count)
 					false
 					(= column column-count)
 					(recur next-column next-row nil 1)
