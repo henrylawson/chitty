@@ -27,7 +27,7 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (false? (is-game-won? game)))))
+			(is (false? (is-game-won? game 0)))))
 
 	(testing "game is won when a single player has 4 vertical items"
 		(let [game [[nil nil nil nil nil nil]
@@ -38,7 +38,7 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (true? (is-game-won? game)))))
+			(is (true? (is-game-won? game 0)))))
 
 	(testing "game is won when a single player has 4 vertical items"
 		(let [game [[nil nil 0   0   0   0  ]
@@ -49,7 +49,7 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (true? (is-game-won? game)))))
+			(is (true? (is-game-won? game 0)))))
 
 	(testing "game is won when a single player has 4 horizontal items"
 		(let [game [[nil nil nil nil nil nil]
@@ -60,7 +60,7 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (true? (is-game-won? game)))))
+			(is (true? (is-game-won? game 0)))))
 
 	(testing "game is won when a single player has 4 horizontal items"
 		(let [game [[nil nil nil nil nil 0  ]
@@ -71,7 +71,7 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (true? (is-game-won? game)))))
+			(is (true? (is-game-won? game 0)))))
 
 	(testing "game is won when a single player has 4 diagnol items"
 		(let [game [[nil nil nil nil nil nil]
@@ -82,7 +82,7 @@
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (true? (is-game-won? game)))))
+			(is (true? (is-game-won? game 0)))))
 
 	(testing "game is won when a single player has 4 diagnol items"
 		(let [game [[nil nil nil nil nil nil]
@@ -93,7 +93,7 @@
 					[nil nil nil nil nil 0  ]
 					[nil nil nil nil nil nil]
 					[nil nil nil nil nil nil]]]
-			(is (true? (is-game-won? game))))))
+			(is (true? (is-game-won? game 0))))))
 
 (deftest is-game-over?-tests
 	(testing "game is over when all places are filled"

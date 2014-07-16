@@ -51,46 +51,41 @@
  				(= token (aget board (+ column 3) (- row 3))))
  			true)))
 
-(defn- has-vertical? [board column row]
-	(let [	token (aget board column row)
- 			row-max (dec (count (first board)))]
- 		(and 
-			(<= (+ row 3) row-max)
-			(= token (aget board column (+ row 1)))
-			(= token (aget board column (+ row 2)))
-			(= token (aget board column (+ row 3))))))
+(defn- has-four-in-a-row? [player row]
+	(let [four-player (partial every? (partial = player))]
+		(some four-player (partition 4 1 row))))
 
-(defn- has-horizontal? [board column row]
-	(let [	token (aget board column row)
-			column-max (dec (count board))]
- 		(and 
-			(<= (+ column 3) column-max)
-			(= token (aget board (+ column 1) row))
-			(= token (aget board (+ column 2) row))
-			(= token (aget board (+ column 3) row)))))
+(defn- transpose [board]
+	(apply mapv vector board))
+
+(defn- has-horizontal? [board player]
+	(some (partial has-four-in-a-row? player) (transpose board)))
+
+(defn- has-vertical? [board player]
+	(some (partial has-four-in-a-row? player) board))
 
 (defn- has-a-win? [board column row]
 	(and
 		(not (nil? (aget board column row)))
-		(or 
-			(has-diagnol? board column row)
-			(has-vertical? board column row)
-			(has-horizontal? board column row))))
+		(has-diagnol? board column row)))
 
-(defn is-game-won? [board]
-	(let [	board2d (to-array-2d board)
+(defn is-game-won? [board player]
+	(if (or (has-horizontal? board player)
+			(has-vertical? board player))
+		true
+		(let [	board2d (to-array-2d board)
 			column-max (dec (count board))
  			row-max (dec (count (first board)))]
-		(loop [column 0 row 0]
-			(let [	next-column (inc-to column-max column)
-					next-row (inc-when column-max column row)]
-				(cond 
-					(has-a-win? board2d column row)
-					true
-					(> next-row row-max)
-					false
-					:else
-					(recur next-column next-row))))))
+			(loop [column 0 row 0]
+				(let [	next-column (inc-to column-max column)
+						next-row (inc-when column-max column row)]
+					(cond 
+						(has-a-win? board2d column row)
+						true
+						(> next-row row-max)
+						false
+						:else
+						(recur next-column next-row)))))))
 
 (defn- is-column-full? [column]
 	(= (nil-count column) 0))

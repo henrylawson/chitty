@@ -18,7 +18,7 @@
 	(let [new-board (place board player move)]
 		(print-board new-board)
 		(cond 
-			(is-game-won? new-board)
+			(is-game-won? new-board player)
 	    	(println (messages-player-won player))
 	    	(is-game-over? new-board)
 	   		(println (messages-game-over))
